@@ -1,0 +1,6 @@
+---
+wireguard_dir: "/etc/wireguard"
+wireguard_master: "10.0.0.1/24"
+wireguard_port: 51830
+
+dest_py_bot: "/etc/wireguard/client_bot"

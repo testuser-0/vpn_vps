@@ -1,0 +1,16 @@
+- name: Install packages
+  apt:
+      update_cache: yes
+      name: "{{item}}"
+      state: present
+  loop:
+      - htop
+      - iftop
+      - tcpdump
+      - mc
+      - curl
+      - telnet
+      - netcat
+      - net-tools
+      - iptables
+      - qrencode

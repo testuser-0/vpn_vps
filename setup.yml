@@ -1,0 +1,8 @@
+---
+- hosts: 
+  user: root
+
+  roles:
+    - install_packages
+    - deploy_unbound
+    - deploy_wireguard

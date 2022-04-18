@@ -1,0 +1,17 @@
+
+---
+- name: Create bot dir
+  file:
+    path: "{{ dest_py_bot }}"
+    state: directory
+
+- name: Copy main.py 
+  copy:
+    src: "main.py"
+    dest: "{{ dest_py_bot }}/main.py"
+    mode: '0777'
+
+- name: Copy peer.py 
+  copy:
+    src: "peer.py"
+    dest: "{{ dest_py_bot }}/peer.py"

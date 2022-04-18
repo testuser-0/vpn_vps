@@ -1,0 +1,13 @@
+---
+url_root_hints: "https://www.internic.net/domain/named.root"
+dest_root_hints: "/var/lib/unbound/root.hints"
+
+dest_resolved_conf: "/etc/systemd/resolved.conf"
+
+dest_vps_conf: "/etc/unbound/unbound.conf.d/vps.conf"
+
+edns_folder: "/etc/dnsmasq.d/"
+dest_edns : "/etc/dnsmasq.d/99-edns.conf"
+
+dest_resolv_conf: "/etc/resolv.conf"
+

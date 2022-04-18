@@ -1,0 +1,47 @@
+---
+- name: Install unbound
+  apt:
+    name: unbound
+    state: present
+    update_cache: yes
+
+- name: Download the current root hints file
+  get_url:
+    url: "{{ url_root_hints }}"
+    dest: "{{ dest_root_hints }}"
+    mode: '0644'
+
+- name: resolved.conf
+  copy:
+    src: "resolved.conf"
+    dest: "{{ dest_resolved_conf }}"
+    mode: '0644'
+    backup: yes
+
+- name: Restart systemd-resolved
+  systemd:
+    name: systemd-resolved
+    state: restarted
+
+- name: Generate vps.conf 
+  template:
+    src: "vps.conf.j2"
+    dest: "{{ dest_vps_conf }}"
+  notify: Restart unbound
+
+- name: Create folder for 99-edns.conf
+  file:
+    path: "{{ edns_folder }}"
+    state: directory
+
+- name: Copy 99-edns.conf
+  copy:
+    src: "99-edns.conf"
+    dest: "{{ dest_edns }}"
+  notify: Restart unbound
+
+- name: Copy resolv.conf
+  copy:
+    src: "resolv.conf"
+    dest: "{{ dest_resolv_conf }}"
+
