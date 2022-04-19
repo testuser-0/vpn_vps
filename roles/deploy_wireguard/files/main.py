@@ -21,8 +21,8 @@ reg_last_oktet = r"AllowedIPs.*\s\d{1,3}\.\d{1,3}\.\d{1,3}\.(?P<last_oktet>\d{1,
 dns = "10.0.0.1"
 
 # Метод создания директорий
-def createFolder(dir_path): 
-     os.makedirs(dir_path, mode=0o700,exist_ok=False) 
+def createFolder(dir_path):
+     os.makedirs(dir_path, mode=0o700,exist_ok=False)
 
 # Метод генерирования клиентских ключей
 def generateClientKeys(priv, pub):
@@ -43,7 +43,7 @@ def generateClientConfig(client_priv_key, free_ip, dns, wireguard_pub, wireguard
                          'Address': free_ip,
                          'DNS': dns}
     config['Peer']={'PublicKey': getFileContent(wireguard_pub),
-                    'Endpoint': wireguard_ip,           
+                    'Endpoint': wireguard_ip,
                     'AllowedIPs': '0.0.0.0/0',
                     'PersistentKeepalive':'20'}
     return(config)
@@ -54,16 +54,16 @@ def getClientsNetworkData(wg_conf, reg):
     list = []
     # комплируем regex
     reg_compile = re.compile(reg)
-    with open(wg_conf) as file: 
+    with open(wg_conf) as file:
             ips = reg_compile.findall(file.read())
-            for i in ips:      
+            for i in ips:
                 list.append(int(i))
     return list
 
 # Временное решение, необходимо сделать поиск "свободных" ip
 def getNewIP(ips_list):
     if not ips_list:
-        ips_list = [1] 
+        ips_list = [1]
     ip = max(ips_list) + 1
     if ip > 1 and ip < 255:
         return ip
@@ -76,7 +76,7 @@ def writeData(path, data):
     with open(path, 'w') as file:
         data.write(file)
 
-# Метод создания QR кода, необходима установка qrencode  
+# Метод создания QR кода, необходима установка qrencode
 def makeQR(config, path):
     os.system(f'qrencode -t PNG --output={path} < {config}')
 
@@ -87,8 +87,8 @@ def restartWireguard():
 # Запрашиваем имя клиента
 name = input("Enter client name:\n")
 # ip клиента с маской. В дальнейшем,  необходимо найти "свободные адреса"
-free_ip = f'10.0.0.{getNewIP(getClientsNetworkData(wireguardConfFile, reg_last_oktet))}/32' 
-# Переменная пути к папке клиента, которую необходимо создать 
+free_ip = f'10.0.0.{getNewIP(getClientsNetworkData(wireguardConfFile, reg_last_oktet))}/32'
+# Переменная пути к папке клиента, которую необходимо создать
 client_dir = os.path.join(rootClientFolder, name)
 # Переменные пути, по которой будет лежать конфиг, публичный и приватный ключ клиента
 client_pub_key = os.path.join(client_dir, f"{name}.key.pub")

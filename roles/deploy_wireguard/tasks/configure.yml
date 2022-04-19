@@ -1,23 +1,25 @@
 - name: Generate wireguard server keypair
   shell: |
-    if [ ! -f {{ wireguard_dir }}/privatekey ]
-     then
-      umask 077 && wg genkey | tee {{ wireguard_dir }}/privatekey | wg pubkey > {{ wireguard_dir }}/publickey
-    fi
-    exit 0
+   if [ ! -f {{ wireguard_dir }}/privatekey ]
+   then
+     set -o pipefail
+     umask 077 && wg genkey | tee {{ wireguard_dir }}/privatekey | wg pubkey > {{ wireguard_dir }}/publickey
+   fi
+   exit 0
+  changed_when: false
 
 - name: Get wireguard private key
   slurp:
     src: "{{ wireguard_dir }}/privatekey"
   register: wireguard_priv
 
-- name: Generate wg0.conf 
+- name: Generate wg0.conf
   template:
     src: "wg0.conf.j2"
     dest: "{{ wireguard_dir }}/wg0.conf"
   notify: Restart wg-quick@wg0
 
-- name: Enable wg0.conf 
+- name: Enable wg0.conf
   systemd:
     name: wg-quick@wg0
     enabled: yes

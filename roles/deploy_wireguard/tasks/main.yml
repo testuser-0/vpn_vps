@@ -5,8 +5,8 @@
 - include_tasks: system.yml
   tags: system
 
-- include_tasks: configure.yml 
+- include_tasks: configure.yml
   tags: configure
 
-- include_tasks: bot.yml 
+- include_tasks: bot.yml
   tags: bot

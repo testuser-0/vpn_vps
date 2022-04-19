@@ -23,7 +23,7 @@
     name: systemd-resolved
     state: restarted
 
-- name: Generate vps.conf 
+- name: Generate vps.conf
   template:
     src: "vps.conf.j2"
     dest: "{{ dest_vps_conf }}"
